@@ -5,11 +5,14 @@
   color: #333333;
   margin-top: 50px;
 }
-
+.user-details-container {
+  display: flex;
+  justify-content: center;
+  display: block;
+}
 .spacer {
   margin-top: 20px;
 }
-
 input {
   display: block;
   width: 20rem;

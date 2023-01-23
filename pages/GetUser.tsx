@@ -1,7 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 
 const SearchUser = () => {
+  const [ID, setID] = useState('')
+  const [message, setMessage] = useState('')
+  const [user, setUser] = useState({});
+
+  let handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    try {
+      let res = await fetch(`https://butq3lt5uk.execute-api.eu-west-2.amazonaws.com/stage/users/${ID}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+      let resJson = await res.json()
+
+      if (res.status === 200) {
+        setID('')
+        setMessage('User found successfully')
+        console.log(resJson.data.data)
+        setUser(resJson.data.data);
+      } else {
+        setMessage('Some error occurred')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <div>
       <Head>
@@ -15,6 +43,41 @@ const SearchUser = () => {
         <div>
           <h1 id="title">Search User</h1>
         </div>
+
+        <br></br>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <form onSubmit={handleSubmit}>
+            <p>Input ID of the user you want to search</p>
+            <br></br>
+            <input
+              type="text"
+              value={ID}
+              placeholder="ID"
+              onChange={(e) => setID(e.target.value)}
+            />
+
+            <br></br>
+
+            <button type="submit" style={{ backgroundColor: '#2196F3' }}>
+              Search User
+            </button>
+
+            <div className="message">{message ? <p>{message}</p> : null}</div>
+          </form>
+
+        </div>
+
+        <br></br>
+
+        <div className="user-details-container">
+          {user.id && <p style={{ display: 'flex', justifyContent: 'center'}}>ID: {user.id}</p>}
+          {user.name && <p style={{ display: 'flex', justifyContent: 'center'}}>Name: {user.name}</p>}
+          {user.email && <p style={{ display: 'flex', justifyContent: 'center'}}>Email: {user.email}</p>}
+          {user.phone && <p style={{ display: 'flex', justifyContent: 'center'}}>Phone: {user.phone}</p>}
+          {user.address && <p style={{ display: 'flex', justifyContent: 'center'}}>Address: {user.address}</p>}
+        </div>
+
       </main>
     </div>
   )
