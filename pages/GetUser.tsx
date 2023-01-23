@@ -4,7 +4,11 @@ import Head from 'next/head'
 const SearchUser = () => {
   const [ID, setID] = useState('')
   const [message, setMessage] = useState('')
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({})
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
 
   let handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -23,6 +27,11 @@ const SearchUser = () => {
         setMessage('User found successfully')
         console.log(resJson.data.data)
         setUser(resJson.data.data);
+        setName(resJson.data.data.name);
+        setEmail(resJson.data.data.email);
+        setPhone(resJson.data.data.phone);
+        setAddress(resJson.data.data.address);
+        
       } else {
         setMessage('Some error occurred')
       }
@@ -71,11 +80,11 @@ const SearchUser = () => {
         <br></br>
 
         <div className="user-details-container">
-          {user.id && <p style={{ display: 'flex', justifyContent: 'center'}}>ID: {user.id}</p>}
-          {user.name && <p style={{ display: 'flex', justifyContent: 'center'}}>Name: {user.name}</p>}
-          {user.email && <p style={{ display: 'flex', justifyContent: 'center'}}>Email: {user.email}</p>}
-          {user.phone && <p style={{ display: 'flex', justifyContent: 'center'}}>Phone: {user.phone}</p>}
-          {user.address && <p style={{ display: 'flex', justifyContent: 'center'}}>Address: {user.address}</p>}
+          {/* {user.id && <p style={{ display: 'flex', justifyContent: 'center'}}>ID: {user.id}</p>} */}
+          {name && <p style={{ display: 'flex', justifyContent: 'center'}}>Name: {name}</p>}
+          {email && <p style={{ display: 'flex', justifyContent: 'center'}}>Email: {email}</p>}
+          {phone && <p style={{ display: 'flex', justifyContent: 'center'}}>Phone: {phone}</p>}
+          {address && <p style={{ display: 'flex', justifyContent: 'center'}}>Address: {address}</p>}
         </div>
 
       </main>
